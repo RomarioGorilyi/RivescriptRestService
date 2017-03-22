@@ -1,0 +1,9 @@
+// Tests the com.rivescript.lang.Perl handler.
+
++ jhello *
+- "<call>jhello <star></call>
+
+> object jhello java
+	return hello();
+< object
+
