@@ -1,4 +1,4 @@
-package com.genesys.rivescript;
+package com.genesys.rivescript.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,7 +13,7 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 public class ClassPathLoader {
-	
+
 	public static interface ConfigStreamReader {
 		boolean loadStream(String file, InputStream is) throws IOException;
 	}

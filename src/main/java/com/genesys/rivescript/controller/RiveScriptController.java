@@ -1,9 +1,7 @@
 package com.genesys.rivescript.controller;
 
-import com.genesys.rivescript.domain.RiveScriptBot;
-import com.rivescript.RiveScript;
+import com.genesys.rivescript.component.RiveScriptBot;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -19,11 +17,8 @@ public class RiveScriptController {
         this.bot = bot;
     }
 
-    @RequestMapping(value = "/chatBot/dialog", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public String answerQuestion(@RequestBody String question) {
-
-
-        return null;
+    @RequestMapping(value = "/chatbot/dialog/", method = RequestMethod.POST, produces = "application/json")
+    public String replyToMessage(@RequestBody String message) {
+        return bot.reply(message);
     }
 }
