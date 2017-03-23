@@ -27,6 +27,7 @@ public class ClassPathLoader {
 	
 	public boolean loadDirectory (String path) throws ZipException, IOException {
 		String[] exts = { ".rive", ".rs" };
+		System.out.println("debug loadDirectory");
 		return this.loadDirectory(path, exts);
 	}
 
@@ -35,6 +36,7 @@ public class ClassPathLoader {
 		URL[] urls = urlClassLoader.getURLs();
 		
 		for (URL url : urls) {
+			System.out.println(url.toString());
 			File f = new File (URLDecoder.decode(url.getFile()));
 			if (f.isDirectory()) {
 				scanDirectory (f, f, path, exts);
@@ -54,6 +56,7 @@ public class ClassPathLoader {
 			String entryName = entry.getName();
 			if (entryName.startsWith(path) && fileHasSignificantExt (entryName, exts)) {
 				InputStream is = zin.getInputStream(entry);
+				System.out.println("debug scanJar");
 				loader.loadStream(entryName, is);
 				is.close();
 			}
@@ -80,7 +83,8 @@ public class ClassPathLoader {
 	}
 
 	private boolean loadFileContent(File f) throws IOException {
-		FileInputStream in  = new FileInputStream(f); 
+		FileInputStream in  = new FileInputStream(f);
+		System.out.println("debug loadFileContent");
 		boolean result = loader.loadStream(f.getAbsolutePath(), in);
 		in.close();
 		return result;
@@ -102,7 +106,7 @@ public class ClassPathLoader {
 				return false;
 			}
 			
-		}).loadDirectory("Stas");
+		}).loadDirectory("rivescript");
 		
 	}
 	

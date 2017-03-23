@@ -33,7 +33,7 @@ public class RiveScriptBot {
 
     private void initBot() {
         try {
-            new ClassPathLoader(configStreamReader).loadDirectory("static/rivescript");
+            new ClassPathLoader(configStreamReader).loadDirectory("rivescript");
         } catch (IOException e) {
             log.error("RiveScript initialization error", e);
             e.printStackTrace();

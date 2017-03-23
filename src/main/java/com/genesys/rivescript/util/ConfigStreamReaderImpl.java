@@ -2,8 +2,12 @@ package com.genesys.rivescript.util;
 
 import com.rivescript.RiveScript;
 import com.rivescript.parser.ParserException;
+import com.rivescript.util.StringUtils;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Vector;
 
 /**
@@ -33,7 +37,7 @@ public class ConfigStreamReaderImpl implements ClassPathLoader.ConfigStreamReade
 
         dis.close();
         // Convert the vector into a string array.
-        String[] code = (String[]) lines.toArray();
+        String[] code = StringUtil.convertVectorToStringArray(lines);
         // Send the code to the parser.
         try {
             riveScriptEngine.stream(code);
