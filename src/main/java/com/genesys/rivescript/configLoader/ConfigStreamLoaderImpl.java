@@ -1,44 +1,43 @@
-package com.genesys.rivescript.util;
+package com.genesys.rivescript.configLoader;
 
 import com.rivescript.RiveScript;
 import com.rivescript.parser.ParserException;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * Created by RomanH on 23.03.2017.
  */
-public class ConfigStreamReaderImpl implements ClassPathLoader.ConfigStreamReader {
+@Slf4j
+public class ConfigStreamLoaderImpl implements ClassPathLoader.ConfigStreamLoader {
 
     private RiveScript riveScriptEngine;
 
-    public ConfigStreamReaderImpl(RiveScript riveScriptEngine) {
+    public ConfigStreamLoaderImpl(RiveScript riveScriptEngine) {
         this.riveScriptEngine = riveScriptEngine;
     }
 
     @Override
-    public boolean loadStream(String file, InputStream is) throws IOException {
-        // Slurp the file's contents.
-        Vector<String> lines = new Vector<>();
+    public boolean loadStreamCode(InputStream inputStream) throws IOException {
+        ArrayList<String> lines = new ArrayList<>();
 
-        DataInputStream dis = new DataInputStream(is);
+        DataInputStream dis = new DataInputStream(inputStream);
         BufferedReader br  = new BufferedReader(new InputStreamReader(dis));
 
-        // Read all the lines.
         String line;
         while ((line = br.readLine()) != null) {
             lines.add(line);
         }
-
         dis.close();
-        // Convert the vector into a string array.
-        String[] code = StringUtil.convertVectorToStringArray(lines);
-        // Send the code to the parser.
+        String[] code = lines.toArray(new String[lines.size()]);
+
         try {
             riveScriptEngine.stream(code);
             return true;
         } catch (ParserException e) {
+            log.error("Parser exception is caught", e);
             return false;
         }
     }

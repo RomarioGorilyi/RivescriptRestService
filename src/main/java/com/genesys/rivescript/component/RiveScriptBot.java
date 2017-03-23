@@ -1,7 +1,7 @@
 package com.genesys.rivescript.component;
 
-import com.genesys.rivescript.util.ClassPathLoader;
-import com.genesys.rivescript.util.ConfigStreamReaderImpl;
+import com.genesys.rivescript.configLoader.ClassPathLoader;
+import com.genesys.rivescript.configLoader.ConfigStreamLoaderImpl;
 import com.rivescript.Config;
 import com.rivescript.RiveScript;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import java.io.IOException;
 public class RiveScriptBot {
 
     private RiveScript riveScriptEngine;
-    private ConfigStreamReaderImpl configStreamReader;
+    private ConfigStreamLoaderImpl configStreamReader;
 
     public RiveScriptBot() {
         riveScriptEngine = new RiveScript(Config.newBuilder()
@@ -27,7 +27,7 @@ public class RiveScriptBot {
                 .unicodePunctuation("[.,!?;:]")  // The unicode punctuation pattern
                 .forceCase(false)                // Whether forcing triggers to lowercase is enabled
                 .build());
-        configStreamReader = new ConfigStreamReaderImpl(riveScriptEngine);
+        configStreamReader = new ConfigStreamLoaderImpl(riveScriptEngine);
         initBot();
     }
 
@@ -43,6 +43,6 @@ public class RiveScriptBot {
     }
 
     public String reply(String message) {
-        return riveScriptEngine.reply("localuser", message);
+        return riveScriptEngine.reply("localuser", message); // TODO define username
     }
 }
