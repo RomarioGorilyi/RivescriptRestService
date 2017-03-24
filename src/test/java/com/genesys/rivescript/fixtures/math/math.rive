@@ -1,0 +1,20 @@
++ test counter
+- <set counter=0>counter set
+
++ set counter #
+- <set counter=<star>>counter set <star>
+
++ show
+- counter = <get counter>
+
++ add #
+- <add counter=<star>>adding
+
++ sub #
+- <sub counter=<star>>subbing
+
++ div #
+- <div counter=<star>>divving
+
++ mult #
+- <mult counter=<star>>multing
