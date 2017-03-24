@@ -1,8 +1,8 @@
-package com.genesys.rivescript;
+package com.genesys.rivescript.engine;
 
 import org.junit.Test;
 
-public class TestTopics extends TestBase {
+public class TopicsTest extends TestBase {
 
 	@Override
 	public String replies() {

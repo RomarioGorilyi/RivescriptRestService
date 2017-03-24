@@ -1,8 +1,8 @@
-package com.genesys.rivescript;
+package com.genesys.rivescript.engine;
 
 import org.junit.Test;
 
-public class TestBotVariables extends TestBase {
+public class BotVariablesTest extends TestBase {
 
 	@Override
 	public String replies() {

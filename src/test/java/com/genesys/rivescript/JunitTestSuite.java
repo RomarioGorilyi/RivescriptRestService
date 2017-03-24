@@ -1,5 +1,6 @@
 package com.genesys.rivescript;
 
+import com.genesys.rivescript.engine.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -8,15 +9,15 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        TestBegin.class,
-//        TestBotVariables.class,
-//        TestMath.class,
-//        TestOptions.class,
-//        TestReplies.class,
-//        TestRiveScript.class,
-//        TestSubstitutions.class,
-//        TestTopics.class,
-//        TestTriggers.class,
+        BeginTest.class,
+        BotVariablesTest.class,
+        MathTest.class,
+        OptionsTest.class,
+        RepliesTest.class,
+        RiveScriptTest.class,
+        SubstitutionsTest.class,
+        TopicsTest.class,
+        TriggersTest.class,
 })
 public class JunitTestSuite {
 }

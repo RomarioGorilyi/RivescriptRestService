@@ -1,12 +1,11 @@
-package com.genesys.rivescript;
+package com.genesys.rivescript.engine;
 
 import org.junit.Test;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
-public class TestReplies extends TestBase {
+public class RepliesTest extends TestBase {
 
 	@Override
 	public String replies() {

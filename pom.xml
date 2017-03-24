@@ -22,6 +22,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<lombok.version>1.16.16</lombok.version>
+		<snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
+		<rest.docs.directory>${project.build.directory}/generated-documentation</rest.docs.directory>
 	</properties>
 
 	<dependencies>
@@ -34,6 +37,7 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+			<version>${lombok.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -46,6 +50,13 @@
 			<artifactId>rivescript-spring-boot-starter</artifactId>
 			<version>0.9.2</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.restdocs</groupId>
+			<artifactId>spring-restdocs-mockmvc</artifactId>
+			<version>1.1.2.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -54,8 +65,56 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>**/*.java</include>
+					</includes>
+					<testFailureIgnore>true</testFailureIgnore>
+					<!-- <perCoreThreadCount>false</perCoreThreadCount> <threadCount>1</threadCount> -->
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.asciidoctor</groupId>
+				<artifactId>asciidoctor-maven-plugin</artifactId>
+				<version>1.5.3</version>
+				<configuration>
+					<backend>html5</backend>
+					<sourceHighlighter>highlightjs</sourceHighlighter>
+					<preserveDirectories>true</preserveDirectories>
+					<baseDir>${snippetsDirectory}</baseDir>
+					<!--<sourceDirectory>${snippetsDirectory}</sourceDirectory> -->
+
+					<outputDirectory>${rest.docs.directory}</outputDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-docs</id>
+						<phase>test</phase>
+						<goals>
+							<goal>process-asciidoc</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
+
+	<repositories>
+		<repository>
+			<id>spring-releases</id>
+			<url>https://repo.spring.io/libs-release</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-releases</id>
+			<url>https://repo.spring.io/libs-release</url>
+		</pluginRepository>
+	</pluginRepositories>
 
 
 </project>

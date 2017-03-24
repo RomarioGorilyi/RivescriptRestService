@@ -1,11 +1,10 @@
-package com.genesys.rivescript;
+package com.genesys.rivescript.engine;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class TestBegin extends TestBase {
+public class BeginTest extends TestBase {
 
 	@Override
 	public String replies() {

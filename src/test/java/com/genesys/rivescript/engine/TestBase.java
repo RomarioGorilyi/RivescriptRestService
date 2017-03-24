@@ -1,4 +1,4 @@
-package com.genesys.rivescript;
+package com.genesys.rivescript.engine;
 
 import com.rivescript.RiveScript;
 
@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class TestBase {
 
 	protected static final String USER_NAME = "localuser";
-	private static final String PATH = "src/test/java/com/genesys/rivescript/fixtures/";
+	private static final String PATH = "src/test/resources/";
 
 	protected RiveScript rs;
 

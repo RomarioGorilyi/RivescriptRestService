@@ -1,0 +1,31 @@
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+= Simple API
+
+== Call simple POST
+*Request*
+include::test/curl-request.adoc[]
+include::test/http-request.adoc[]
+
+*_path parameters_*
+include::test/path-parameters.adoc
+
+*_request parameters_*
+include::test/request-parameters.adoc[]
+
+
+*_request parameters_*
+include::test/request-parameters.adoc[]
+
+*_request body_*
+include::test/request-fields.adoc[]
+
+*Response*
+include::test/response-fields.adoc[]
+include::test/http-response.adoc[]
+
