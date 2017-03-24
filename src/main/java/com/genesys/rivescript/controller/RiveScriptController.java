@@ -1,6 +1,6 @@
 package com.genesys.rivescript.controller;
 
-import com.genesys.rivescript.service.RiveScriptManager;
+import com.genesys.rivescript.service.RiveScriptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class RiveScriptController {
 
-    private final RiveScriptManager rsManager;
+    private final RiveScriptService rsManager;
 
     @Autowired
-    public RiveScriptController(RiveScriptManager rsManager) {
+    public RiveScriptController(RiveScriptService rsManager) {
         this.rsManager = rsManager;
     }
 

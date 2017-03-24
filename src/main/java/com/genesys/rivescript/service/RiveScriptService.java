@@ -14,12 +14,12 @@ import java.io.IOException;
  */
 @Service
 @Slf4j
-public class RiveScriptManager {
+public class RiveScriptService {
 
     private RiveScript rsEngine;
     private ConfigStreamLoaderImpl configStreamReader;
 
-    public RiveScriptManager() {
+    public RiveScriptService() {
         rsEngine = new RiveScript(Config.newBuilder()
                 .throwExceptions(true)           // Whether exception throwing is enabled
                 .strict(true)                    // Whether strict syntax checking is enabled
