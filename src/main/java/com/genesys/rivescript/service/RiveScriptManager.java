@@ -1,37 +1,37 @@
-package com.genesys.rivescript.component;
+package com.genesys.rivescript.service;
 
 import com.genesys.rivescript.configLoader.ClassPathLoader;
 import com.genesys.rivescript.configLoader.ConfigStreamLoaderImpl;
 import com.rivescript.Config;
 import com.rivescript.RiveScript;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 /**
  * Created by RomanH on 22.03.2017.
  */
-@Component
+@Service
 @Slf4j
-public class RiveScriptBot {
+public class RiveScriptManager {
 
-    private RiveScript riveScriptEngine;
+    private RiveScript rsEngine;
     private ConfigStreamLoaderImpl configStreamReader;
 
-    public RiveScriptBot() {
-        riveScriptEngine = new RiveScript(Config.newBuilder()
+    public RiveScriptManager() {
+        rsEngine = new RiveScript(Config.newBuilder()
                 .throwExceptions(true)           // Whether exception throwing is enabled
                 .strict(true)                    // Whether strict syntax checking is enabled
                 .utf8(true)                      // Whether UTF-8 mode is enabled
                 .unicodePunctuation("[.,!?;:]")  // The unicode punctuation pattern
                 .forceCase(false)                // Whether forcing triggers to lowercase is enabled
                 .build());
-        configStreamReader = new ConfigStreamLoaderImpl(riveScriptEngine);
-        initBot();
+        configStreamReader = new ConfigStreamLoaderImpl(rsEngine);
+        initManager();
     }
 
-    private void initBot() {
+    private void initManager() {
         try {
             new ClassPathLoader(configStreamReader).loadDirectory("rivescript");
         } catch (IOException e) {
@@ -39,10 +39,10 @@ public class RiveScriptBot {
             e.printStackTrace();
         }
 
-        riveScriptEngine.sortReplies();
+        rsEngine.sortReplies();
     }
 
-    public String reply(String message) {
-        return riveScriptEngine.reply("localuser", message); // TODO define username
+    public String reply(String username, String message) {
+        return rsEngine.reply(username, message);
     }
 }
