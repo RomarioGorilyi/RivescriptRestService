@@ -1,5 +1,6 @@
 package com.genesys.rivescript.controller;
 
+import com.genesys.rivescript.service.KnowledgeService;
 import com.genesys.rivescript.service.RiveScriptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,15 +11,21 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class RiveScriptController {
 
-    private final RiveScriptService rsManager;
+    private RiveScriptService rsService;
+    private KnowledgeService knowledgeService;
 
     @Autowired
-    public RiveScriptController(RiveScriptService rsManager) {
-        this.rsManager = rsManager;
+    public RiveScriptController(RiveScriptService rsService, KnowledgeService knowledgeService) {
+        this.rsService = rsService;
+        this.knowledgeService = knowledgeService;
     }
 
-    @RequestMapping(value = "/chatbot/dialog/{username}", method = RequestMethod.POST, produces = "application/json")
-    public String replyToMessage(@RequestBody String message, @PathVariable String username) {
-        return rsManager.reply(username, message);
+    @RequestMapping(value = "/chatbot/", method = RequestMethod.POST, produces = "application/json")
+    public String replyToMessage(@RequestBody String message, @RequestHeader(value = "Username") String username) {
+        if (message.toLowerCase().startsWith("knowledge")) {
+            return knowledgeService.processRequest(username, message);
+        } else {
+            return rsService.reply(username, message);
+        }
     }
 }
