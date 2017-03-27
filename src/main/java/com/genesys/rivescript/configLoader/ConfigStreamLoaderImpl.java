@@ -13,10 +13,10 @@ import java.util.ArrayList;
 @Slf4j
 public class ConfigStreamLoaderImpl implements ClassPathLoader.ConfigStreamLoader {
 
-    private RiveScript riveScriptEngine;
+    private RiveScript rsEngine;
 
-    public ConfigStreamLoaderImpl(RiveScript riveScriptEngine) {
-        this.riveScriptEngine = riveScriptEngine;
+    public ConfigStreamLoaderImpl(RiveScript rsEngine) {
+        this.rsEngine = rsEngine;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ConfigStreamLoaderImpl implements ClassPathLoader.ConfigStreamLoade
         String[] code = lines.toArray(new String[lines.size()]);
 
         try {
-            riveScriptEngine.stream(code);
+            rsEngine.stream(code);
             return true;
         } catch (ParserException e) {
             log.error("Parser exception is caught", e);

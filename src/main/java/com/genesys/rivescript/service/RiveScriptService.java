@@ -28,10 +28,10 @@ public class RiveScriptService {
                 .forceCase(false)                // Whether forcing triggers to lowercase is enabled
                 .build());
         configStreamReader = new ConfigStreamLoaderImpl(rsEngine);
-        initManager();
+        initService();
     }
 
-    private void initManager() {
+    private void initService() {
         try {
             new ClassPathLoader(configStreamReader).loadDirectory("rivescript");
         } catch (IOException e) {

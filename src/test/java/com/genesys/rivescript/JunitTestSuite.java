@@ -1,6 +1,7 @@
 package com.genesys.rivescript;
 
 import com.genesys.rivescript.engine.*;
+import com.genesys.rivescript.rest.RsControllerTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -18,6 +19,7 @@ import org.junit.runners.Suite;
         SubstitutionsTest.class,
         TopicsTest.class,
         TriggersTest.class,
+        RsControllerTest.class
 })
 public class JunitTestSuite {
 }

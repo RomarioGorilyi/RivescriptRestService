@@ -1,5 +1,7 @@
 package com.genesys.rivescript.controller;
 
+import com.genesys.rivescript.domain.Request;
+import com.genesys.rivescript.domain.Response;
 import com.genesys.rivescript.service.KnowledgeService;
 import com.genesys.rivescript.service.RiveScriptService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +23,14 @@ public class RiveScriptController {
     }
 
     @RequestMapping(value = "/chatbot/", method = RequestMethod.POST, produces = "application/json")
-    public String replyToMessage(@RequestBody String message, @RequestHeader(value = "Username") String username) {
-        if (message.toLowerCase().startsWith("knowledge")) {
-            return knowledgeService.processRequest(username, message);
+    public Response replyToMessage(@RequestBody Request request, @RequestHeader(value = "Username") String username) {
+        String keyWord = "knowledge ";
+
+        String requestMessage = request.getMessage();
+        if (requestMessage.toLowerCase().startsWith(keyWord)) {
+            return new Response(knowledgeService.processRequest(username, requestMessage.substring(keyWord.length())));
         } else {
-            return rsService.reply(username, message);
+            return new Response(rsService.reply(username, requestMessage));
         }
     }
 }

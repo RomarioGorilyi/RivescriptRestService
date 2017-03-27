@@ -1,0 +1,33 @@
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+= RiveScript Dialog Service
+
+== Handling Chat Conversation
+*Request*
+include::test-rs-controller-handle-request-by-rs-service/curl-request.adoc[]
+include::test-rs-controller-handle-request-by-rs-service/http-request.adoc[]
+
+*_request body_*
+include::test-rs-controller-handle-request-by-rs-service/request-fields.adoc[]
+
+*Response*
+include::test-rs-controller-handle-request-by-rs-service/response-fields.adoc[]
+include::test-rs-controller-handle-request-by-rs-service/http-response.adoc[]
+
+== Handling by Knowledge Service
+*Request*
+include::test-rs-controller-handle-request-by-knowledge-service/curl-request.adoc[]
+include::test-rs-controller-handle-request-by-knowledge-service/http-request.adoc[]
+
+*_request body_*
+include::test-rs-controller-handle-request-by-knowledge-service/request-fields.adoc[]
+
+*Response*
+include::test-rs-controller-handle-request-by-knowledge-service/response-fields.adoc[]
+include::test-rs-controller-handle-request-by-knowledge-service/http-response.adoc[]
+

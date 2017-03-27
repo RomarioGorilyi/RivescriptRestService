@@ -29,15 +29,8 @@ import javax.naming.NamingException;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -50,16 +43,6 @@ public class RsControllerTest {
 
     @Autowired
     WebApplicationContext wac; // cached
-    @Autowired
-    MockServletContext servletContext; // cached
-    @Autowired
-    MockHttpSession session;
-    @Autowired
-    MockHttpServletRequest request;
-    @Autowired
-    MockHttpServletResponse response;
-    @Autowired
-    ServletWebRequest webRequest;
 
     private MockMvc mockMvc;
 
@@ -90,36 +73,44 @@ public class RsControllerTest {
     }
 
     @Test
-    public void test() throws Exception {
+    public void testRsControllerHandleRequestByRsService() throws Exception {
         initMVC();
-        ResultActions x = mockMvc.perform(RestDocumentationRequestBuilders.post("/controller/tenants/{tenantId}/react", "tenant1")
-                .param("language", "en")
-                .content("{\"request\" : \"test\"}")
+        ResultActions actions = mockMvc.perform(RestDocumentationRequestBuilders.post("/chatbot/")
+                .header("Username", "localuser")
+                .content("{\"message\" : \"Hello\"}")
                 .contentType(MediaType.APPLICATION_JSON));
-        MockHttpServletResponse resp = x.andExpect(status().isOk())
+        MockHttpServletResponse response = actions.andExpect(status().isOk())
                 .andDo(this.document.document(
-                        pathParameters(
-                                parameterWithName("tenantId").optional().description("Tenant Identifier")
-                        ),
-
-                        requestParameters(
-                                parameterWithName("language").optional().description("Language")
-                        ),
-
                         requestFields (
-                                fieldWithPath("request").type(JsonFieldType.STRING).description("request field")
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("user request message")
                         ),
 
                         responseFields(
-                                fieldWithPath("response").type(JsonFieldType.STRING).description("generated response"),
-                                fieldWithPath("list").type(JsonFieldType.ARRAY).description("sample of array"),
-                                fieldWithPath("request").type(JsonFieldType.OBJECT).description("sample of object"),
-                                fieldWithPath("request.request").type(JsonFieldType.STRING).description("sample of object field")
+                                fieldWithPath("message").type(JsonFieldType.STRING)
+                                        .description("generated response message")
                         ))
                 )
                 .andReturn().getResponse();
+    }
 
-        int k = 0;
-        k++;
+    @Test
+    public void testRsControllerHandleRequestByKnowledgeService() throws Exception {
+        initMVC();
+        ResultActions actions = mockMvc.perform(RestDocumentationRequestBuilders.post("/chatbot/")
+                .header("Username", "localuser")
+                .content("{\"message\" : \"KnowledGE help me with something\"}")
+                .contentType(MediaType.APPLICATION_JSON));
+        MockHttpServletResponse response = actions.andExpect(status().isOk())
+                .andDo(this.document.document(
+                        requestFields (
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("user request message")
+                        ),
+
+                        responseFields(
+                                fieldWithPath("message").type(JsonFieldType.STRING)
+                                        .description("generated response message")
+                        ))
+                )
+                .andReturn().getResponse();
     }
 }
