@@ -19,8 +19,6 @@
 	</parent>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<lombok.version>1.16.16</lombok.version>
 		<snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
@@ -57,6 +55,12 @@
 			<version>1.1.2.RELEASE</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -73,6 +77,8 @@
 						<include>**/*.java</include>
 					</includes>
 					<testFailureIgnore>true</testFailureIgnore>
+					<useSystemClassLoader>false</useSystemClassLoader>
+					<!--  If useSystemClassLoader=true, then we use a manifest-only JAR-->
 					<!-- <perCoreThreadCount>false</perCoreThreadCount> <threadCount>1</threadCount> -->
 				</configuration>
 			</plugin>
@@ -86,7 +92,7 @@
 					<sourceHighlighter>highlightjs</sourceHighlighter>
 					<preserveDirectories>true</preserveDirectories>
 					<baseDir>${snippetsDirectory}</baseDir>
-					<!--<sourceDirectory>${snippetsDirectory}</sourceDirectory> -->
+					<!--<sourceDirectory>${snippetsDirectory}</sourceDirectory>-->
 
 					<outputDirectory>${rest.docs.directory}</outputDirectory>
 				</configuration>
@@ -99,6 +105,8 @@
 						</goals>
 					</execution>
 				</executions>
+				<dependencies>
+			</dependencies>
 			</plugin>
 		</plugins>
 	</build>
