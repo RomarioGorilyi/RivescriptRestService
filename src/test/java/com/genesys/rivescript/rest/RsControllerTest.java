@@ -74,31 +74,19 @@ public class RsControllerTest {
 
     @Test
     public void testRsControllerHandleRequestByRsService() throws Exception {
-        initMVC();
-        ResultActions actions = mockMvc.perform(RestDocumentationRequestBuilders.post("/chatbot/")
-                .header("Username", "localuser")
-                .content("{\"message\" : \"Hello\"}")
-                .contentType(MediaType.APPLICATION_JSON));
-        MockHttpServletResponse response = actions.andExpect(status().isOk())
-                .andDo(this.document.document(
-                        requestFields (
-                                fieldWithPath("message").type(JsonFieldType.STRING).description("user request message")
-                        ),
-
-                        responseFields(
-                                fieldWithPath("message").type(JsonFieldType.STRING)
-                                        .description("generated response message")
-                        ))
-                )
-                .andReturn().getResponse();
+        testRsController("Hello");
     }
 
     @Test
     public void testRsControllerHandleRequestByKnowledgeService() throws Exception {
+        testRsController("make request to knowledge server to do something");
+    }
+
+    private void testRsController(String messageToProcess) throws Exception {
         initMVC();
         ResultActions actions = mockMvc.perform(RestDocumentationRequestBuilders.post("/chatbot/")
                 .header("Username", "localuser")
-                .content("{\"message\" : \"KnowledGE help me with something\"}")
+                .content("{\"message\" : \"" + messageToProcess + "\"}")
                 .contentType(MediaType.APPLICATION_JSON));
         MockHttpServletResponse response = actions.andExpect(status().isOk())
                 .andDo(this.document.document(

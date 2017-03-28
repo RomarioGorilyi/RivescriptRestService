@@ -1,0 +1,9 @@
+// Knowledge commands handling
+
+! array can = can could would may
+
++ knowledge (@can) you help me with * {weight=100}
+- knowledge make <star>
+
++ make request to knowledge server to * {weight=100}
+- knowledge make <star>
