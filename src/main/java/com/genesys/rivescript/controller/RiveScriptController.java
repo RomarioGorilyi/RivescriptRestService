@@ -27,10 +27,13 @@ public class RiveScriptController {
         String keyWord = "knowledge ";
 
         String requestMessage = request.getMessage();
-        if (requestMessage.toLowerCase().startsWith(keyWord)) {
-            return new Response(knowledgeService.processRequest(username, requestMessage.substring(keyWord.length())));
+
+        String rsResponseMessage = rsService.reply(username, requestMessage);
+        if (rsResponseMessage.contains(keyWord)) {
+            String knowledgeResponseMessage = knowledgeService.processRequest(username, rsResponseMessage);
+            return new Response(knowledgeResponseMessage);
         } else {
-            return new Response(rsService.reply(username, requestMessage));
+            return new Response(rsResponseMessage);
         }
     }
 }
