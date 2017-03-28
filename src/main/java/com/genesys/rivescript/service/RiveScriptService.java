@@ -17,7 +17,6 @@ import java.io.IOException;
 public class RiveScriptService {
 
     private RiveScript rsEngine;
-    private ConfigStreamLoaderImpl configStreamReader;
 
     public RiveScriptService() {
         rsEngine = new RiveScript(Config.newBuilder()
@@ -27,13 +26,12 @@ public class RiveScriptService {
                 .unicodePunctuation("[.,!?;:]")  // The unicode punctuation pattern
                 .forceCase(false)                // Whether forcing triggers to lowercase is enabled
                 .build());
-        configStreamReader = new ConfigStreamLoaderImpl(rsEngine);
-        initService();
+        initRsEngine(new ConfigStreamLoaderImpl(rsEngine));
     }
 
-    private void initService() {
+    private void initRsEngine(ClassPathLoader.ConfigStreamLoader configStreamLoader) {
         try {
-            new ClassPathLoader(configStreamReader).loadDirectory("rivescript");
+            new ClassPathLoader(configStreamLoader).loadDirectory("rivescript");
         } catch (IOException e) {
             log.error("RiveScript initialization error", e);
             e.printStackTrace();
