@@ -5,14 +5,18 @@ import com.genesys.rivescript.configLoader.ConfigStreamLoaderImpl;
 import com.rivescript.Config;
 import com.rivescript.RiveScript;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
  * Created by RomanH on 22.03.2017.
  */
 @Service
+//@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Slf4j
 public class RiveScriptService {
 
@@ -26,10 +30,10 @@ public class RiveScriptService {
                 .unicodePunctuation("[.,!?;:]")  // The unicode punctuation pattern
                 .forceCase(false)                // Whether forcing triggers to lowercase is enabled
                 .build());
-        initRsEngine(new ConfigStreamLoaderImpl(rsEngine));
+        initRsScripts(new ConfigStreamLoaderImpl(rsEngine));
     }
 
-    private void initRsEngine(ClassPathLoader.ConfigStreamLoader configStreamLoader) {
+    private void initRsScripts(ClassPathLoader.ConfigStreamLoader configStreamLoader) {
         try {
             new ClassPathLoader(configStreamLoader).loadDirectory("rivescript");
         } catch (IOException e) {

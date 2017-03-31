@@ -5,7 +5,10 @@ import com.genesys.rivescript.domain.Response;
 import com.genesys.rivescript.service.KnowledgeService;
 import com.genesys.rivescript.service.RiveScriptService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by RomanH on 22.03.2017.
@@ -13,17 +16,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class RiveScriptController {
 
+    @Autowired
     private RiveScriptService rsService;
+    @Autowired
     private KnowledgeService knowledgeService;
 
-    @Autowired
-    public RiveScriptController(RiveScriptService rsService, KnowledgeService knowledgeService) {
-        this.rsService = rsService;
-        this.knowledgeService = knowledgeService;
-    }
-
     @RequestMapping(value = "/chatbot/", method = RequestMethod.POST, produces = "application/json")
-    public Response replyToMessage(@RequestBody Request request, @RequestHeader(value = "Username") String username) {
+    @ResponseStatus(HttpStatus.OK)
+    public Response replyToMessage(@RequestBody Request request, @RequestHeader("username") String username) {
         String keyWord = "knowledge ";
 
         String requestMessage = request.getMessage();
@@ -35,5 +35,16 @@ public class RiveScriptController {
         } else {
             return new Response(rsResponseMessage);
         }
+    }
+
+    @RequestMapping(value = "/registration/", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public void registerUserData(@RequestHeader("username") String username,
+                                 @RequestHeader("lang") String language,
+                                 @RequestHeader("topic") String topic, HttpSession session) {
+        if (!topic.equals("")) {
+            rsService.reply(username, "set topic " + topic);
+        }
+        session.setAttribute("lang", language); // TODO think over usage of this feature
     }
 }
