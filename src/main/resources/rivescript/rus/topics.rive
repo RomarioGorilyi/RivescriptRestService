@@ -1,0 +1,21 @@
++ set topic (topic1|topic2|topic3)
+- <set topic=<star>>topic "<star>" was set successfully{topic=<star>}
+
+> topic topic1 inherits random
+    + hello topic
+    - hi from <get topic>
+< topic
+
+> topic topic2 inherits random
+    + hello topic
+    - hi from <get topic>
+< topic
+
++ *
+- Please, go on.
+
++ hello topic
+- hi from random topic
+
++ quit topic
+- {topic=random}

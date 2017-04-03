@@ -4,6 +4,7 @@ import com.genesys.rivescript.domain.Request;
 import com.genesys.rivescript.domain.Response;
 import com.genesys.rivescript.service.KnowledgeService;
 import com.genesys.rivescript.service.RiveScriptService;
+import com.genesys.rivescript.service.RsServicePool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,18 +18,28 @@ import javax.servlet.http.HttpSession;
 public class RiveScriptController {
 
     @Autowired
-    private RiveScriptService rsService;
+    private RsServicePool rsServicePool;
     @Autowired
     private KnowledgeService knowledgeService;
 
     @RequestMapping(value = "/chatbot/", method = RequestMethod.POST, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public Response replyToMessage(@RequestBody Request request, @RequestHeader("username") String username) {
-        String keyWord = "knowledge ";
+    public Response replyToMessage(@RequestBody Request request, HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        if (username == null) {
+            username = session.getId();
+        }
+
+        String language = (String) session.getAttribute("lang");
+        if (language == null) {
+            language = "eng";
+        }
+        RiveScriptService rsService = rsServicePool.getRsService(language);
 
         String requestMessage = request.getMessage();
 
         String rsResponseMessage = rsService.reply(username, requestMessage);
+        String keyWord = "knowledge ";
         if (rsResponseMessage.contains(keyWord)) {
             String knowledgeResponseMessage = knowledgeService.processRequest(username, rsResponseMessage);
             return new Response(knowledgeResponseMessage);
@@ -42,9 +53,12 @@ public class RiveScriptController {
     public void registerUserData(@RequestHeader("username") String username,
                                  @RequestHeader("lang") String language,
                                  @RequestHeader("topic") String topic, HttpSession session) {
+        session.setAttribute("lang", language.toLowerCase().trim());
+        session.setAttribute("username", username);
+
+        RiveScriptService rsService = rsServicePool.getRsService(language.toLowerCase());
         if (!topic.equals("")) {
             rsService.reply(username, "set topic " + topic);
         }
-        session.setAttribute("lang", language); // TODO think over usage of this feature
     }
 }
