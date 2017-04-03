@@ -1,4 +1,4 @@
-package com.genesys.rivescript.service;
+package com.genesys.rivescript.service.rivescript;
 
 import com.genesys.rivescript.configLoader.ClassPathLoader;
 import com.genesys.rivescript.configLoader.ConfigStreamLoaderImpl;
@@ -12,11 +12,11 @@ import java.io.IOException;
  * Created by RomanH on 22.03.2017.
  */
 @Slf4j
-public class RiveScriptService {
+public class RsService {
 
     private RiveScript rsEngine;
 
-    public RiveScriptService(String pathToResources) {
+    public RsService(String pathToResources) {
         rsEngine = new RiveScript(Config.newBuilder()
                 .throwExceptions(true)           // Whether exception throwing is enabled
                 .strict(true)                    // Whether strict syntax checking is enabled

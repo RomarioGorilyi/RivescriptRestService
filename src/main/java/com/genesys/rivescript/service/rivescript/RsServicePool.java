@@ -1,4 +1,4 @@
-package com.genesys.rivescript.service;
+package com.genesys.rivescript.service.rivescript;
 
 import lombok.Getter;
 import org.springframework.stereotype.Service;
@@ -16,21 +16,21 @@ import java.util.Map;
 public class RsServicePool {
 
     @Getter
-    private final Map<String, RiveScriptService> rsServices;
+    private final Map<String, RsService> rsServices;
 
     public RsServicePool() {
         rsServices = new HashMap<>();
         initServices();
     }
 
-    public RiveScriptService getRsService(String language) {
+    public RsService getRsService(String language) {
         return rsServices.get(language);
     }
 
     private void initServices() {
         List<String> supportedLanguages = findSupportedLanguages();
         for (String lang : supportedLanguages) {
-            rsServices.put(lang, new RiveScriptService(lang));
+            rsServices.put(lang, new RsService(lang));
         }
     }
 

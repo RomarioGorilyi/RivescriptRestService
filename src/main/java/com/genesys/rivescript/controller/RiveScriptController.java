@@ -2,9 +2,9 @@ package com.genesys.rivescript.controller;
 
 import com.genesys.rivescript.domain.Request;
 import com.genesys.rivescript.domain.Response;
-import com.genesys.rivescript.service.KnowledgeService;
-import com.genesys.rivescript.service.RiveScriptService;
-import com.genesys.rivescript.service.RsServicePool;
+import com.genesys.rivescript.service.knowledge.KnowledgeService;
+import com.genesys.rivescript.service.rivescript.RsService;
+import com.genesys.rivescript.service.rivescript.RsServicePool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +34,7 @@ public class RiveScriptController {
         if (language == null) {
             language = "eng";
         }
-        RiveScriptService rsService = rsServicePool.getRsService(language);
+        RsService rsService = rsServicePool.getRsService(language);
 
         String requestMessage = request.getMessage();
 
@@ -56,7 +56,7 @@ public class RiveScriptController {
         session.setAttribute("lang", language.toLowerCase().trim());
         session.setAttribute("username", username);
 
-        RiveScriptService rsService = rsServicePool.getRsService(language.toLowerCase());
+        RsService rsService = rsServicePool.getRsService(language.toLowerCase());
         if (!topic.equals("")) {
             rsService.reply(username, "set topic " + topic);
         }

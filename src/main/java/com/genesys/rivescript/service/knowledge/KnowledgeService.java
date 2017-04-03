@@ -1,4 +1,4 @@
-package com.genesys.rivescript.service;
+package com.genesys.rivescript.service.knowledge;
 
 import org.springframework.stereotype.Service;
 
