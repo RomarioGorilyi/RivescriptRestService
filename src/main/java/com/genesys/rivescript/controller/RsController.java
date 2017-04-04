@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
  * Created by RomanH on 22.03.2017.
  */
 @RestController
-public class RiveScriptController {
+public class RsController {
 
     @Autowired
     private RsServicePool rsServicePool;

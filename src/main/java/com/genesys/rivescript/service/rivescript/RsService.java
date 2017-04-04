@@ -28,6 +28,10 @@ public class RsService {
         initRsScripts(new ConfigStreamLoaderImpl(rsEngine), pathToResources);
     }
 
+    public String reply(String username, String message) {
+        return rsEngine.reply(username, message);
+    }
+
     private void initRsScripts(ClassPathLoader.ConfigStreamLoader configStreamLoader, String pathToResources) {
         try {
             new ClassPathLoader(configStreamLoader).loadDirectory("rivescript\\" + pathToResources);
@@ -37,9 +41,5 @@ public class RsService {
         }
 
         rsEngine.sortReplies();
-    }
-
-    public String reply(String username, String message) {
-        return rsEngine.reply(username, message);
     }
 }

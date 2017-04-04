@@ -1,8 +1,8 @@
 // Learn stuff about our users.
 
 + (меня зовут|мое имя) *
-- <set name=<star>>Приятно познакомиться, <get name>.
-- <set name=<star>><get name>, приятно с Вами познакомиться.
+- <set name=<star2>>Приятно познакомиться, <get name>.
+- <set name=<star2>><get name>, приятно с Вами познакомиться.
 
 + (меня зовут|мое имя) <bot master>
 - <set name=<bot master>>У моего Мастера такое же имя.

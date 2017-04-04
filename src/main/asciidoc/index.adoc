@@ -7,27 +7,39 @@
 
 = RiveScript Dialog Service
 
-== Handling Chat Conversation
+== Handling Requests by Default (English) RiveScript Service
 *Request*
-include::test-rs-controller-handle-request-by-rs-service/curl-request.adoc[]
-include::test-rs-controller-handle-request-by-rs-service/http-request.adoc[]
+include::test-handle-request-by-default-english-rs-service/curl-request.adoc[]
+include::test-handle-request-by-default-english-rs-service/http-request.adoc[]
 
 *_request body_*
-include::test-rs-controller-handle-request-by-rs-service/request-fields.adoc[]
+include::test-handle-request-by-default-english-rs-service/request-fields.adoc[]
 
 *Response*
-include::test-rs-controller-handle-request-by-rs-service/response-fields.adoc[]
-include::test-rs-controller-handle-request-by-rs-service/http-response.adoc[]
+include::test-handle-request-by-default-english-rs-service/response-fields.adoc[]
+include::test-handle-request-by-default-english-rs-service/http-response.adoc[]
 
-== Handling by Knowledge Service
+== Handling Requests by Ukrainian RiveScript Service
 *Request*
-include::test-rs-controller-handle-request-by-knowledge-service/curl-request.adoc[]
-include::test-rs-controller-handle-request-by-knowledge-service/http-request.adoc[]
+include::test-handle-request-by-ukrainian-rs-language-service/curl-request.adoc[]
+include::test-handle-request-by-ukrainian-rs-language-service/http-request.adoc[]
 
 *_request body_*
-include::test-rs-controller-handle-request-by-knowledge-service/request-fields.adoc[]
+include::test-handle-request-by-ukrainian-rs-language-service/request-fields.adoc[]
 
 *Response*
-include::test-rs-controller-handle-request-by-knowledge-service/response-fields.adoc[]
-include::test-rs-controller-handle-request-by-knowledge-service/http-response.adoc[]
+include::test-handle-request-by-ukrainian-rs-language-service/response-fields.adoc[]
+include::test-handle-request-by-ukrainian-rs-language-service/http-response.adoc[]
+
+== Handling Requests by Knowledge Service
+*Request*
+include::test-handle-request-by-knowledge-service/curl-request.adoc[]
+include::test-handle-request-by-knowledge-service/http-request.adoc[]
+
+*_request body_*
+include::test-handle-request-by-knowledge-service/request-fields.adoc[]
+
+*Response*
+include::test-handle-request-by-knowledge-service/response-fields.adoc[]
+include::test-handle-request-by-knowledge-service/http-response.adoc[]
 

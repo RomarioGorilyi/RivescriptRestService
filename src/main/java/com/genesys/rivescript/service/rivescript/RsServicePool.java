@@ -28,18 +28,18 @@ public class RsServicePool {
     }
 
     private void initServices() {
-        List<String> supportedLanguages = findSupportedLanguages();
+        List<String> supportedLanguages = listSupportedLanguages();
         for (String lang : supportedLanguages) {
             rsServices.put(lang, new RsService(lang));
         }
     }
 
     /**
-     * Finds all supported languages by parsing resource folder with RiveScript sources files.
+     * Lists all supported languages by parsing resource folder with RiveScript sources files.
      *
      * @return {@code List<String>} of supported languages
      */
-    private List<String> findSupportedLanguages() {
+    private List<String> listSupportedLanguages() {
         List<String> supportedLanguages = new ArrayList<>();
 
         File resourcesFolder = new File("src/main/resources/rivescript/");
