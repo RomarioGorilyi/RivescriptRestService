@@ -10,10 +10,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.jndi.SimpleNamingContextBuilder;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
-import org.springframework.mock.web.MockServletContext;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
@@ -23,10 +21,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.naming.NamingException;
 
+import java.util.UUID;
+
+import static org.hamcrest.CoreMatchers.anyOf;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -45,6 +47,7 @@ public class RsControllerTest {
     WebApplicationContext wac; // cached
 
     private MockMvc mockMvc;
+    private MockHttpSession mockSession;
 
     @Rule
     public JUnitRestDocumentation restDocumentation =
@@ -70,24 +73,67 @@ public class RsControllerTest {
                 .apply(documentationConfiguration(this.restDocumentation))
                 .alwaysDo(this.document)
                 .build();
+        this.mockSession = new MockHttpSession(wac.getServletContext(), UUID.randomUUID().toString());
     }
 
     @Test
-    public void testRsControllerHandleRequestByRsService() throws Exception {
-        testRsController("Hello");
-    }
-
-    @Test
-    public void testRsControllerHandleRequestByKnowledgeService() throws Exception {
-        testRsController("make request to knowledge server to do something");
-    }
-
-    private void testRsController(String messageToProcess) throws Exception {
+    public void testHandleRequestByDefaultEnglishRsService() throws Exception {
         initMVC();
+
+        String responseMessage = getResponseMessageFromChatbot("Hello");
+        String[] expectedResponses = {
+                "How do you do. Please state your problem.",
+                "Hi. What seems to be your problem?"
+        };
+        assertThat(responseMessage, anyOf(equalTo(expectedResponses[0]), equalTo(expectedResponses[1])));
+    }
+
+    @Test
+    public void testHandleRequestByKnowledgeService() throws Exception {
+        initMVC();
+
+        String responseMessage = getResponseMessageFromChatbot(
+                "make request to knowledge server to do something");
+        String expectedResponses = "Something has been done.";
+        assertThat(responseMessage, equalTo(expectedResponses));
+    }
+
+    @Test
+    public void testHandleRequestByUkrainianRsLanguageService() throws Exception {
+        String username = "роман";
+
+        initMVC();
+        mockSession.setAttribute("lang", "ukr");
+
+        String responseMessage = getResponseMessageFromChatbot("мене звати " + username);
+        String[] expectedResponses = {
+                "Приємно познайомитись, " + username + ".",
+                username + ", приємно з Вами познайомитись."
+        };
+        assertThat(responseMessage, anyOf(equalTo(expectedResponses[0]), equalTo(expectedResponses[1])));
+    }
+
+    @Test
+    public void testRegisterUserDataAndHandleTopicRequest() throws Exception {
+        initMVC();
+        ResultActions actions = mockMvc.perform(RestDocumentationRequestBuilders.post("/registration/")
+                .header("username", "testUser")
+                .header("lang", "eng")
+                .header("topic", "topic1"));
+        mockSession.setAttribute("lang", "eng");
+        mockSession.setAttribute("username", "testUser");
+
+        String responseMessage = getResponseMessageFromChatbot("hello topic");
+        String expectedResponse = "hi from topic1";
+        assertThat(responseMessage, equalTo(expectedResponse));
+    }
+
+    private String getResponseMessageFromChatbot(String messageToProcess) throws Exception {
         ResultActions actions = mockMvc.perform(RestDocumentationRequestBuilders.post("/chatbot/")
-                .header("Username", "localuser")
                 .content("{\"message\" : \"" + messageToProcess + "\"}")
-                .contentType(MediaType.APPLICATION_JSON));
+                .contentType(MediaType.APPLICATION_JSON)
+                .session(mockSession));
+
         MockHttpServletResponse response = actions.andExpect(status().isOk())
                 .andDo(this.document.document(
                         requestFields (
@@ -100,5 +146,9 @@ public class RsControllerTest {
                         ))
                 )
                 .andReturn().getResponse();
+        String jsonResponse = response.getContentAsString();
+        String responseMessage = jsonResponse.substring(12, jsonResponse.length() - 2); // get only a value of the JSON response
+
+        return responseMessage;
     }
 }
