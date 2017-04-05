@@ -53,10 +53,16 @@ public class RsController {
     public void registerUserData(@RequestHeader("username") String username,
                                  @RequestHeader("lang") String language,
                                  @RequestHeader("topic") String topic, HttpSession session) {
-        session.setAttribute("lang", language.toLowerCase().trim());
+        RsService rsService;
+        if (!language.equals("")) {
+            session.setAttribute("lang", language.toLowerCase().trim());
+            rsService = rsServicePool.getRsService(language.toLowerCase());
+        } else {
+            rsService = rsServicePool.getRsService("eng");
+        }
+
         session.setAttribute("username", username);
 
-        RsService rsService = rsServicePool.getRsService(language.toLowerCase());
         if (!topic.equals("")) {
             rsService.reply(username, "set topic " + topic);
         }

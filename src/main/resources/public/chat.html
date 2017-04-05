@@ -7,7 +7,7 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="styles/style-chat.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="scripts/jquery-3.2.0.min.js"></script>
     <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="scripts/script-chat-window.js"></script>
 </head>
@@ -20,27 +20,40 @@
 
         var message = document.getElementById('btn-input').value;
         var body = JSON.stringify({ message: message });
-        alert(body);
+        var inputField = document.getElementById('btn-input');
+        inputField.value = '';
+        inputField.focus();
         xhr.send(body);
 
         xhr.onreadystatechange = function() {
-            if (xhr.readyState != 4) return;
-
-            if (xhr.status != 200) {
+            if (xhr.readyState !== 4) {
+                return;
+            }
+            if (xhr.status !== 200) {
                 alert(xhr.status + ': ' + xhr.statusText);
             } else {
-                $(".inner").append("<div class="row msg_container base_receive"> +
-                <div class="col-md-2 col-xs-2 avatar">
-                    <img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class=" img-responsive ">
-                    </div>
-                    <div class="col-md-10 col-xs-10">
-                    <div class="messages msg_receive">
-                    <p>that mongodb thing looks good, huh?
-                    tiny master db, and huge document store</p>
-                </div>
-                </div>
-                </div>");
-                alert(xhr.responseText);
+                var messageContainer = document.querySelector('.panel-body.msg_container_base');
+
+                messageContainer.innerHTML += "<div class=\"row msg_container human_message\">"
+                    + "<div class=\"col-md-10 col-xs-10\">"
+                    + "<div class=\"messages msg_receive\">"
+                    + "<p>" + message + "</p>"
+                    + "</div></div>"
+                    + "<div class=\"col-md-2 col-xs-2 avatar\">"
+                    + "<img src=\"https://cdn1.iconfinder.com/data/icons/unique-round-blue/93/user-512.png\" class=\"img-responsive\">"
+                    + "</div></div>";
+
+                messageContainer.innerHTML += "<div class=\"row msg_container chatbot_message\">"
+                    + "<div class=\"col-md-2 col-xs-2 avatar\">"
+                    + "<img src=\"https://d13yacurqjgara.cloudfront.net/users/279657/screenshots/2701628/chatbot.png\" class=\"img-responsive\">"
+                    + "</div>"
+                    + "<div class=\"col-md-10 col-xs-10\">"
+                    + "<div class=\"messages msg_receive\">"
+                    + "<p>" + JSON.parse(xhr.responseText)['message'] + "</p>"
+                    + "</div> </div> </div>";
+
+                messageContainer.scrollTop = messageContainer.scrollHeight;
+                //document.querySelector('.row msg_container chatbot_message').scrollIntoView(false);
             }
         }
     }
@@ -74,27 +87,14 @@
                         <a href="#"><span class="glyphicon glyphicon-remove icon_close" data-id="chat_window_1"></span></a>
                     </div>
                 </div>
-
                 <div class="panel-body msg_container_base">
-                    <div class="row msg_container base_sent">
-                        <div class="col-md-10 col-xs-10">
-                            <div class="messages msg_sent">
-                                <p>that mongodb thing looks good, huh?
-                                    tiny master db, and huge document store</p>
-                            </div>
-                        </div>
+                    <div class="row msg_container chatbot_message">
                         <div class="col-md-2 col-xs-2 avatar">
-                            <img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class=" img-responsive ">
-                        </div>
-                    </div>
-                    <div class="row msg_container base_receive">
-                        <div class="col-md-2 col-xs-2 avatar">
-                            <img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class=" img-responsive ">
+                            <img src="https://d13yacurqjgara.cloudfront.net/users/279657/screenshots/2701628/chatbot.png" class=" img-responsive ">
                         </div>
                         <div class="col-md-10 col-xs-10">
                             <div class="messages msg_receive">
-                                <p>that mongodb thing looks good, huh?
-                                    tiny master db, and huge document store</p>
+                                <p>Hello. I'm your personal helper. I'm ready to answer your questions.</p>
                             </div>
                         </div>
                     </div>

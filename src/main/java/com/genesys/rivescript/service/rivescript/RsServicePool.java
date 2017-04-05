@@ -39,7 +39,7 @@ public class RsServicePool {
      *
      * @return {@code List<String>} of supported languages
      */
-    private List<String> listSupportedLanguages() {
+    public List<String> listSupportedLanguages() {
         List<String> supportedLanguages = new ArrayList<>();
 
         File resourcesFolder = new File("src/main/resources/rivescript/");

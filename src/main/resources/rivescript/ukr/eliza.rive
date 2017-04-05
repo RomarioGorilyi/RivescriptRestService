@@ -73,9 +73,9 @@
 - Don't you know?
 - How likely, would you estimate?
 
-+ (hello|hi|hey|howdy|hola|hai|yo) [*]
-- How do you do. Please state your problem.
-- Hi. What seems to be your problem?
++ (привіт|дорова|добрий день|хай|здорова) [*]
+- Привіт, як Ваші справи. Будь-ласка опишіть Вашу проблему.
+- Привіт. Яка у вас проблема?
 
 + [*] computer [*]
 - Do computers worry you?

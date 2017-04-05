@@ -4,13 +4,36 @@
     <meta charset="UTF-8">
     <title>Registration</title>
     <link rel="stylesheet" type="text/css" href="styles/style-registration.css">
+    <script src="scripts/jquery-3.2.0.min.js"></script>
 </head>
 <body>
 <script>
     function registerUser() {
-        this.style.backgroundColor = '#69c061';
+        var submitButton = document.getElementById('submit');
+        submitButton.style. backgroundColor = "#69c061";
 
+        var username = document.getElementById('username').value;
+        var lang = document.getElementById('lang').value;
+        var topic = document.getElementById('topic').value;
 
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/registration/', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('username', username);
+        xhr.setRequestHeader('lang', lang);
+        xhr.setRequestHeader('topic', topic);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState !== 4) return;
+
+            if (xhr.status !== 200) {
+                alert(xhr.status + ': ' + xhr.statusText);
+            } else {
+                window.location.replace("/chat.html");
+            }
+        };
+        setTimeout(function() {
+            xhr.send();
+        }, 500);
     }
 </script>
 
@@ -18,10 +41,11 @@
     <div id="box">
         <h3 class="h3">Registration</h3>
         <form class="form">
-            <input class="input" type="text" placeholder="USERNAME" />
-            <input class="input" type="text" placeholder="PASSWORD" />
+            <input id="username" class="input" type="text" placeholder="USERNAME" />
+            <input id="lang" class="input" type="text" placeholder="LANGUAGE" />
+            <input id="topic" class="input" type="text" placeholder="TOPIC" />
         </form>
-        <input class="submit" onclick="registerUser()" type="submit" value="Sign in"/>
+        <input id="submit" onclick="registerUser()" type="submit" value="Sign in"/>
     </div>
 </div>
 </body>
