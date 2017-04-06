@@ -41,9 +41,14 @@
     <div id="box">
         <h3 class="h3">Registration</h3>
         <form class="form">
-            <input id="username" class="input" type="text" placeholder="USERNAME" />
-            <input id="lang" class="input" type="text" placeholder="LANGUAGE" />
-            <input id="topic" class="input" type="text" placeholder="TOPIC" />
+            <input id="username" class="input" type="text" placeholder="USERNAME" required />
+            <select id="lang" class="input" required>
+                <option disabled selected>Language</option>
+                <option value="eng">English</option>
+                <option value="ukr">Ukrainian</option>
+                <option value="rus">Russian</option>
+            </select>
+            <input id="topic" class="input" type="text" placeholder="TOPIC" required />
         </form>
         <input id="submit" onclick="registerUser()" type="submit" value="Sign in"/>
     </div>
