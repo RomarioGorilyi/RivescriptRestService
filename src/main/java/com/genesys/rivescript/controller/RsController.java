@@ -58,6 +58,7 @@ public class RsController {
             session.setAttribute("lang", language.toLowerCase().trim());
             rsService = rsServicePool.getRsService(language.toLowerCase());
         } else {
+            session.setAttribute("lang", "eng");
             rsService = rsServicePool.getRsService("eng");
         }
 

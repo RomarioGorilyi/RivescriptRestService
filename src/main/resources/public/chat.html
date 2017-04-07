@@ -9,69 +9,13 @@
 
     <script src="scripts/jquery-3.2.0.min.js"></script>
     <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="scripts/script-welcome-message.js"></script>
     <script type="text/javascript" src="scripts/script-chat-window.js"></script>
+    <script type="text/javascript" src="scripts/script-chat-conversation.js"></script>
 </head>
 <body>
 <script>
-    function makeRequest() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/chatbot/', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-
-        var message = document.getElementById('btn-input').value;
-        var body = JSON.stringify({ message: message });
-        var inputField = document.getElementById('btn-input');
-        inputField.value = '';
-        inputField.focus();
-        xhr.send(body);
-
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState !== 4) {
-                return;
-            }
-            if (xhr.status !== 200) {
-                alert(xhr.status + ': ' + xhr.statusText);
-            } else {
-                var messageContainer = document.querySelector('.panel-body.msg_container_base');
-
-                messageContainer.innerHTML += "<div class=\"row msg_container human_message\">"
-                    + "<div class=\"col-md-10 col-xs-10\">"
-                    + "<div class=\"messages msg_receive\">"
-                    + "<p>" + message + "</p>"
-                    + "</div></div>"
-                    + "<div class=\"col-md-2 col-xs-2 avatar\">"
-                    + "<img src=\"https://cdn1.iconfinder.com/data/icons/unique-round-blue/93/user-512.png\" class=\"img-responsive\">"
-                    + "</div></div>";
-
-                messageContainer.innerHTML += "<div class=\"row msg_container chatbot_message\">"
-                    + "<div class=\"col-md-2 col-xs-2 avatar\">"
-                    + "<img src=\"https://d13yacurqjgara.cloudfront.net/users/279657/screenshots/2701628/chatbot.png\" class=\"img-responsive\">"
-                    + "</div>"
-                    + "<div class=\"col-md-10 col-xs-10\">"
-                    + "<div class=\"messages msg_receive\">"
-                    + "<p>" + JSON.parse(xhr.responseText)['message'] + "</p>"
-                    + "</div> </div> </div>";
-
-                messageContainer.scrollTop = messageContainer.scrollHeight;
-                //document.querySelector('.row msg_container chatbot_message').scrollIntoView(false);
-            }
-        }
-    }
-
-    $("#btn-input").focus(function() {
-        $(this).data("hasfocus", true);
-    });
-
-    $("#btn-input").blur(function() {
-        $(this).data("hasfocus", false);
-    });
-
-    $(document.body).keyup(function(ev) {
-        // 13 is ENTER
-        if (ev.which === 13 && $("#btn-input").data("hasfocus")) {
-            makeRequest();
-        }
-    });
+    document.addEventListener("DOMContentLoaded", createWelcomeMessage);
 </script>
 
 <div class="container">
@@ -94,14 +38,14 @@
                         </div>
                         <div class="col-md-10 col-xs-10">
                             <div class="messages msg_receive">
-                                <p>Hello. I'm your personal helper. I'm ready to answer your questions.</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="panel-footer">
                     <div class="input-group">
-                        <input id="btn-input" type="text" name="message" class="form-control input-sm chat_input" placeholder="Write your message here..." autofocus />
+                        <input id="btn-input" type="text" name="message" class="form-control input-sm chat_input"
+                               placeholder="Write your message here..." autofocus onkeypress="sendRequestOnMessage(event)"/>
                         <span class="input-group-btn">
                         <button onclick="makeRequest()" class="btn btn-primary btn-sm" id="btn-chat">Send</button>
                         </span>

@@ -1,11 +1,11 @@
 // A generic set of chatting responses. This set mimicks the classic Eliza bot.
 
 + *
-- I'm not sure I understand you fully.
-- Please go on.
-- That is interesting. Please continue.
-- Tell me more about that.
-- Does talking about this bother you?
+- Я неуверен, что полностью Вас понял.
+- Пожалуйста продолжайте.
+- Это интересно. Пожалуйста продолжайте.
+- Расскажите мне побольше про это.
+- Эта тема очень беспокоит Вас?
 
 + [*] (sorry|apologize|apology) [*]
 - Please don't apologize.
@@ -73,9 +73,9 @@
 - Don't you know?
 - How likely, would you estimate?
 
-+ (hello|hi|hey|howdy|hola|hai|yo) [*]
-- How do you do. Please state your problem.
-- Hi. What seems to be your problem?
++ (привет|добрый день|день добрый|добрый вечер|доброе утро|здравствуйте|прив) [*]
+- Здравствуйте. Пожалуйста, обьясните Вашу проблему.
+- Добрый день. Что Вас беспокоит?
 
 + [*] computer [*]
 - Do computers worry you?
